@@ -15,8 +15,7 @@ class Cell:
   def create_button_object(self, location):
     btn = Button(location,
                 width=12              #height and width are relative to a 6x6 grid
-                height=4
-                text=f'{self.x},{self.y}')
+                height=4)
     self.cell_button_object = btn
 
     btn.bind('<Button-1>', self.left_click_actions)
@@ -25,8 +24,47 @@ class Cell:
   
   #click functions on the cells
   def left_click_actions(self, event):
-    print(event)
-    print('I am left clicked')
+    if self.is_mine:
+      self.show_mine()
+    else:
+      self.show_cell()
+  
+  def get_cell_by_axis(self, x, y):
+    #return cell objects based on coordinates
+    for cell in Cell.all:
+      if cell.x == x and Cell.y == y:
+        return cell
+  
+  def surrounding_cells():
+    cells=[
+      self.get_cell_by_axis(self.x-1, self.y-1),        #left, lower
+      self.get_cell_by_axis(self.x-1, self.y),          #left, same side
+      self.get_cell_by_axis(self.x-1, self.y+1),        #left, upper
+      self.get_cell_by_axis(self.x, self.y-1),          #same column, lower
+      self.get_cell_by_axis(self.x, self.y+1),          #same column, upper
+      self.get_cell_by_axis(self.x+1, self.y-1),        #right, lower
+      self.get_cell_by_axis(self.x+1, self.y),          #right, same side
+      self.get_cell_by_axis(self.x-1, self.y+1)]        #right, upper
+      
+    cells= [cell for cell in cells if cell is not None]
+    return cells
+      
+
+  
+  @property                                             #decorator 
+  def surrounded_cells_mines_length(self):
+    counter = 0
+    for cell in self.currounding_cells:
+      if cell.is_mine:
+        counter += 1
+     return counter
+  
+  def show_cell():
+    self.cell_button_object.configure(text=self.surrounding_cells_mine_length)
+    
+  def show_mine(self):
+    #logic to end the game
+    self.cell_button_object.configure(bg='red')
     
   def right_click_actions(self, event):
     print(event)
@@ -34,9 +72,10 @@ class Cell:
 
 
   #place the mines
-  @staticmethod
+  @staticmethod                                         #decorator
   def randomize_mines():
-    picked_cells = random.sample(Cell.all, 9)
+    picked_cells = random.sample(Cell.all,
+                                 settings.MINES_COUNT)
     for picked_cells in picked_cells:
       picked_cells.is_mine = True
   
