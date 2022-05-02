@@ -1,22 +1,28 @@
 from tkinter import Button
 
 class Cell:
+  all = []
   def __init__ (self, x, y, is_mine=False):
     self.is_mine = is_mine
     self.cell_button_object = None
     self.x = x
     self.y = y
-    
+    Cell.all.append(self)             #append object to the Cell.all list       
+   
+  
+  #make buttons in the cells
   def create_button_object(self, location):
     btn = Button(location,
                 width=12              #height and width are relative to a 6x6 grid
                 height=4
-                text='Text')
+                text=f'{self.x},{self.y}')
     self.cell_button_object = btn
 
     btn.bind('<Button-1>', self.left_click_actions)
     btn.bind('<Button-3>', self.right_click_actions)
-    
+  
+  
+  #click functions on the cells
   def left_click_actions(self, event):
     print(event)
     print('I am left clicked')
@@ -24,3 +30,12 @@ class Cell:
   def right_click_actions(self, event):
     print(event)
     print('I am right clicked')
+
+
+  #place the mines
+  @staticmethod
+  def randomize_mines():
+    pass
+  
+  def __repr__(self):
+    return f'Cell({self.x}, {self.y})'
