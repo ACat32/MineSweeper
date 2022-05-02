@@ -34,7 +34,7 @@ game_frame.place(x=utilities.width(25), y=utilities.height(25))
 
 for x in range(settings.GRID):
   for y in range(settings.GRID):
-    c= Cell()
+    c= Cell(x,y)
     c.create_button_object(game_frame)
     c1.cell_button_object.grid(column=x, row=y)
 
