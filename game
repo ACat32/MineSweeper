@@ -10,16 +10,22 @@ root.title('MineSweeper)
 root.resizable(False, False)
 
 top_frame = Frame(root, 
-                  bg='grey', 
+                  bg='black', 
                   width= settings.WIDTH, 
                   height= utilities.height_prct(25))
 top_frame.place(x=0, y=0)
 
 left_frame = Frame(root, 
-                  bg='blue', 
+                  bg='black', 
                   width=utilities.width_prct(25), 
                   height=utilities.height_prct(75))
 left_frame.place(x=0, y=utilities.height_prct(25))
+
+game_frame = Frame(root,
+                  bg='black',
+                  wideth=utilities.width_prct(75),
+                  height=utilities.width_prct(75))
+game_frame.place(x=utilities.width(25), y=utilities.height(25))
 
 #run the window
 root.mainloop()
