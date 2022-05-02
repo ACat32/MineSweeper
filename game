@@ -1,8 +1,10 @@
 from tkinter import *
 import settings
 import utilities
+from cells import Cell
 
 root = Tk()
+#build the game frame
 
 root.config(bg='black')
 root.geometry(f'{settings.WIDTH} x {settings.HEIGHT}')
@@ -26,6 +28,9 @@ game_frame = Frame(root,
                   wideth=utilities.width_prct(75),
                   height=utilities.width_prct(75))
 game_frame.place(x=utilities.width(25), y=utilities.height(25))
+
+#begin cells
+c1 = Cell()
 
 #run the window
 root.mainloop()
