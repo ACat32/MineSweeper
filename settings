@@ -1,4 +1,6 @@
-WIDTH=1440
-WIDTH=720
+WIDTH=1440                          #window width
+WIDTH=720                           #window height
 
-GRID = 6
+GRID = 6                            #game grid cell size 
+
+MINES_Count = (GRID ** 2) // 4      #number of mines in a game
