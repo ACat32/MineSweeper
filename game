@@ -29,8 +29,18 @@ game_frame = Frame(root,
                   height=utilities.width_prct(75))
 game_frame.place(x=utilities.width(25), y=utilities.height(25))
 
+
 #begin cells
+
+for x in range(5):
+  for y in range(5):
+    c= Cell()
+    c.create_button_object(game_frame)
+    c1.cell_button_object.grid(column=y, row=x)
+
 c1 = Cell()
+c1.create_button_object(game_frame)
+c1.cell_button_object.grid(column=0, row=0)
 
 #run the window
 root.mainloop()
