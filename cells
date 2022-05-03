@@ -1,4 +1,4 @@
-from tkinter import Button
+from tkinter import Button and Label
 import random
 
 class Cell:
@@ -21,12 +21,18 @@ class Cell:
     btn.bind('<Button-1>', self.left_click_actions)
     btn.bind('<Button-3>', self.right_click_actions)
   
+  def create_cell_count_label(self, location):
+    label = Label(location,
+                  text=f'Cells Remaining:{settings.GRID})
   
   #click functions on the cells
   def left_click_actions(self, event):
     if self.is_mine:
       self.show_mine()
     else:
+      if self.surrounding_cells_mines_length == 0:        #this pops all empty cells surrounding a 0 cell.
+        for cell_object in self.surrounding_cells:
+          cell_object.show_cell()
       self.show_cell()
   
   def get_cell_by_axis(self, x, y):
