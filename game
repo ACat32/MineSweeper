@@ -31,13 +31,18 @@ game_frame.place(x=utilities.width(25), y=utilities.height(25))
 
 
 #begin cells
-
 for x in range(settings.GRID):
   for y in range(settings.GRID):
     c= Cell(x,y)
     c.create_button_object(game_frame)
     c1.cell_button_object.grid(column=x, row=y)
 
+
+#labels
+Cell.create_cell_count_label(left_frame)
+Cell.cell_count_label_object.place(x=0, y=0)
+
+#mines
 Cell.randomize_mines()
 
 
