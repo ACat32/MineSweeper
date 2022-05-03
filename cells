@@ -7,13 +7,15 @@ class Cell:
   
   def __init__ (self, x, y, is_mine=False):
     self.is_mine = is_mine
+    self.is_opened = False
     self.cell_button_object = None
     self.x = x
     self.y = y
+    
     Cell.all.append(self)             #append object to the Cell.all list       
    
   
-  #make buttons in the cells
+  # buttons in the cells
   def create_button_object(self, location):
     btn = Button(location,
                 width=12              #height and width are relative to a 6x6 grid
@@ -26,7 +28,10 @@ class Cell:
   @staticmethod                                         #use for the class, not the instance
   def create_cell_count_label(location):
     label = Label(location,
-                  text=f'Cells Remaining:{settings.COUNT})
+                  bg='black'
+                  fg='white'
+                  text=f'Cells Remaining:{settings.COUNT},
+                  font=('Arial', 30)
     Cell.cell_count_label_object = label
     return label
   
@@ -71,7 +76,14 @@ class Cell:
      return counter
   
   def show_cell():
-    self.cell_button_object.configure(text=self.surrounding_cells_mine_length)
+    if not self.is_opened:                            #only closed cells are affected
+      Cell.cell_count -= 1
+      self.cell_button_object.configure(
+                      text=self.surrounding_cells_mine_length)
+        if Cell.cell_count_label_object:              #only closed cells get counted
+        Cell.cell_count_label_object.configure(
+                      text=f'Cells Remaining:{Cell.cell_count}')
+    self.is_opened = True
     
   def show_mine(self):
     #logic to end the game
