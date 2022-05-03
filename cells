@@ -3,6 +3,8 @@ import random
 
 class Cell:
   all = []
+  cell_count_label_object = None
+  
   def __init__ (self, x, y, is_mine=False):
     self.is_mine = is_mine
     self.cell_button_object = None
@@ -21,9 +23,12 @@ class Cell:
     btn.bind('<Button-1>', self.left_click_actions)
     btn.bind('<Button-3>', self.right_click_actions)
   
-  def create_cell_count_label(self, location):
+  @staticmethod                                         #use for the class, not the instance
+  def create_cell_count_label(location):
     label = Label(location,
-                  text=f'Cells Remaining:{settings.GRID})
+                  text=f'Cells Remaining:{settings.COUNT})
+    Cell.cell_count_label_object = label
+    return label
   
   #click functions on the cells
   def left_click_actions(self, event):
@@ -78,7 +83,7 @@ class Cell:
 
 
   #place the mines
-  @staticmethod                                         #decorator
+  @staticmethod                                         #for the class, not the instance
   def randomize_mines():
     picked_cells = random.sample(Cell.all,
                                  settings.MINES_COUNT)
