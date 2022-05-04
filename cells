@@ -16,13 +16,13 @@ class Cell:
     self.x = x
     self.y = y
     
-    Cell.all.append(self)             #append object to the Cell.all list       
+    Cell.all.append(self)                               #append object to the Cell.all list       
    
   
   # buttons in the cells
   def create_button_object(self, location):
     btn = Button(location,
-                width=12              #height and width are relative to a 6x6 grid
+                width=12                                #height and width are relative to a 6x6 grid
                 height=4)
     self.cell_button_object = btn
 
@@ -39,21 +39,30 @@ class Cell:
     Cell.cell_count_label_object = label
     return label
   
+  
   #click functions on the cells
   def left_click_actions(self, event):
     if self.is_mine:
       self.show_mine()
     else:
-      if self.surrounding_cells_mines_length == 0:        #this pops all empty cells surrounding a 0 cell.
+      if self.surrounding_cells_mines_length == 0:      #this pops all empty cells surrounding a 0 cell.
         for cell_object in self.surrounding_cells:
           cell_object.show_cell()
       self.show_cell()
+      
+      if Cell.cell_count == settings.COUNT:
+        ctypes.windll.user32.MessageBoxW(0, 'You Win! 'Game Over!', 0)
+      
+    self.cell_button_object.unbind('<Button-1>')
+    self.cell_button_object.unbind('<Button-3>')
+  
   
   def get_cell_by_axis(self, x, y):
     #return cell objects based on coordinates
     for cell in Cell.all:
       if cell.x == x and Cell.y == y:
         return cell
+  
   
   def surrounding_cells():
     cells=[
@@ -79,21 +88,25 @@ class Cell:
         counter += 1
      return counter
   
+  
   def show_cell():
-    if not self.is_opened:                            #only closed cells are affected
+    if not self.is_opened:                              #only closed cells are affected
       Cell.cell_count -= 1
       self.cell_button_object.configure(
                       text=self.surrounding_cells_mine_length)
-        if Cell.cell_count_label_object:              #only closed cells get counted
+        if Cell.cell_count_label_object:                #only closed cells get counted
         Cell.cell_count_label_object.configure(
                       text=f'Cells Remaining:{Cell.cell_count}')
+        self.cell_button_object.configure(bg='SystemButtonFace')
     self.is_opened = True
-    
+   
+   
   def show_mine(self):
     ctypes.windll.user32.MessageBoxW(0, 'You clicked on a mine', 'Game Over', 1)
     self.cell_button_object.configure(bg='red')
     sys.exit
-    
+   
+   
   def right_click_actions(self, event):
     if not self.is_mine_posibility:
       self.cell_button_object.configure(bg = 'orange)
