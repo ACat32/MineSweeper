@@ -1,5 +1,8 @@
 from tkinter import Button and Label
 import random
+import settings
+import ctypes
+import sys
 
 class Cell:
   all = []
@@ -8,6 +11,7 @@ class Cell:
   def __init__ (self, x, y, is_mine=False):
     self.is_mine = is_mine
     self.is_opened = False
+    self.is_mine_possibility = False
     self.cell_button_object = None
     self.x = x
     self.y = y
@@ -86,12 +90,17 @@ class Cell:
     self.is_opened = True
     
   def show_mine(self):
-    #logic to end the game
+    ctypes.windll.user32.MessageBoxW(0, 'You clicked on a mine', 'Game Over', 1)
     self.cell_button_object.configure(bg='red')
+    sys.exit
     
   def right_click_actions(self, event):
-    print(event)
-    print('I am right clicked')
+    if not self.is_mine_posibility:
+      self.cell_button_object.configure(bg = 'orange)
+      self.is_mine_posibility = True
+    else:
+      self.cell_button_object.configure(bg = 'SystemButtonFace')
+      self.is_mine_posibility = False
 
 
   #place the mines
